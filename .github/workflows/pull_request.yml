@@ -10,14 +10,20 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - name: Checkout
-          uses: actions/checkout@v4.1.7
+        - uses: actions/checkout@v4.1.7
 
         - name: Setup Java JDK
           uses: actions/setup-java@v3.13.0
           with:
             java-version: '17'
             distribution: 'adopt'
+            cache: 'gradle'
+
+        - name: Grant execute permissions for gradlew
+          run: chmod +x gradlew
+
+        - name: Run unit tests
+          run: ./gradlew clean testDebug
 
         - name: Build with Gradle
           uses: ./gradlew build
